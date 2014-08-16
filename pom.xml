@@ -60,8 +60,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-util</artifactId>
-			<version>7.0.55</version>
+			<artifactId>tomcat-coyote</artifactId>
+			<version>7.0.47</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

@@ -52,6 +52,12 @@
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+			<version>2.1</version>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>

@@ -8,6 +8,7 @@ public class UserDAO {
 
 	public boolean validateUser() {
 		Connection c = ConnectionManager.getConnection();
+		
 		return false;
 	}
 }

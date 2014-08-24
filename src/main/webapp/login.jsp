@@ -27,20 +27,5 @@
 		</table>
 		<input type="submit" value="Log in">
 	</form>
-
-	<%
-		InitialContext ic = new InitialContext();
-		Context co = (Context) ic.lookup("java:comp/env");
-		BasicDataSource ds = (BasicDataSource) co.lookup("jdbc/MySQLDS");
-		java.sql.Connection con = ds.getConnection();
-		java.sql.PreparedStatement ps = con
-				.prepareStatement("select * from site.foo");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			System.out.println(rs.getString(1));
-			out.println(rs.getString(1));
-		}
-		con.close();
-	%>
 </body>
 </html>

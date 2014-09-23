@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class HitCountDAO {
 
-	public int doHit(String counterID) {
+	public int doHit(String counterID, boolean increment) {
 		Connection conn = ConnectionManager.getConnection();
 
 		if (counterID == null || "".equals(counterID)) {
@@ -19,10 +19,12 @@ public class HitCountDAO {
 		}
 
 		try {
-			PreparedStatement hitStatement = conn
-					.prepareStatement("INSERT INTO `site`.`hitCount` (id, hits) VALUES (?,1) ON duplicate key UPDATE hits = hits + 1;");
-			hitStatement.setString(1, counterID);
-			hitStatement.execute();
+			if (increment) {
+				PreparedStatement hitStatement = conn
+						.prepareStatement("INSERT INTO `site`.`hitCount` (id, hits) VALUES (?,1) ON duplicate key UPDATE hits = hits + 1;");
+				hitStatement.setString(1, counterID);
+				hitStatement.execute();
+			}
 
 			PreparedStatement getStatement = conn
 					.prepareStatement("SELECT hits FROM `site`.`hitCount` WHERE id = ?");

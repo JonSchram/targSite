@@ -40,38 +40,59 @@ public class HitCounter extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String counterID = request.getParameter("counterID");
-		int hitCount = new HitCountDAO().doHit(counterID);
+
+		String increment = request.getParameter("increment");
+		boolean doIncrement = true;
+		if (increment == null || "false".equals(increment)) {
+			doIncrement = false;
+		}
+
+		String invisible = request.getParameter("invisible");
+		boolean isInvisible = true;
+		if (invisible == null || "false".equals(invisible)) {
+			isInvisible = false;
+		}
+
+		int hitCount = new HitCountDAO().doHit(counterID, doIncrement);
 
 		OutputStream out = response.getOutputStream();
 
 		BufferedImage hitImage;
-		int imageWidth, imageHeight = 30;
+		int imageWidth, imageHeight;
 		String imageMessage;
-
-		if (hitCount != -1) {
-			imageWidth = (int) (20 * (Math.log10(hitCount + 1) + 1));
-			imageMessage = String.valueOf(hitCount);
+		if (!isInvisible) {
+			imageHeight = 30;
+			if (hitCount != -1) {
+				imageMessage = String.valueOf(hitCount);
+			} else {
+				imageMessage = "ERROR";
+			}
+			imageWidth = 10 * imageMessage.length();
 		} else {
-			imageWidth = 100;
-			imageMessage = "ERROR";
+			imageHeight = 1;
+			imageWidth = 1;
+			imageMessage = "";
 		}
 
 		hitImage = new BufferedImage(imageWidth, imageHeight,
 				BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = (Graphics2D) hitImage.getGraphics();
-		g2.setBackground(Color.WHITE);
-		g2.setColor(Color.WHITE);
-		g2.clearRect(0, 0, imageWidth, imageHeight);
-		g2.drawRect(0, 0, imageWidth, imageHeight);
-		g2.setFont(new Font("default", Font.PLAIN, 12));
-		g2.setColor(Color.BLACK);
-		g2.drawString(imageMessage, 2, 20);
+		if (!isInvisible) {
+			Graphics2D g2 = (Graphics2D) hitImage.getGraphics();
+			g2.setBackground(Color.WHITE);
+			g2.setColor(Color.WHITE);
+			g2.clearRect(0, 0, imageWidth, imageHeight);
+			g2.drawRect(0, 0, imageWidth, imageHeight);
+			g2.setFont(new Font("default", Font.PLAIN, 12));
+			g2.setColor(Color.BLACK);
+			g2.drawString(imageMessage, 2, 20);
+		}
 
 		response.setHeader("Cache-Control",
 				"private, no-store, no-cache, must-revalidate");
-		response.addHeader("pragma", "no-store,no-cache");
 		response.addHeader("cache-control",
 				"no-cache, no-store,must-revalidate, max-age=-1");
+		response.addHeader("pragma", "no-store,no-cache");
+
 		response.addHeader("expires", "-1");
 
 		response.setContentType("image/png");

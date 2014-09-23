@@ -36,6 +36,14 @@ public class HitCountDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
+		} finally {
+			try {
+				if (!conn.isClosed()) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

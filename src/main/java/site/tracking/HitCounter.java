@@ -49,7 +49,7 @@ public class HitCounter extends HttpServlet {
 		String imageMessage;
 
 		if (hitCount != -1) {
-			imageWidth = (int) (20 * Math.log10(hitCount));
+			imageWidth = (int) (20 * (Math.log10(hitCount + 1) + 1));
 			imageMessage = String.valueOf(hitCount);
 		} else {
 			imageWidth = 100;

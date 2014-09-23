@@ -62,7 +62,7 @@ public class HitCounter extends HttpServlet {
 		int imageWidth, imageHeight;
 		String imageMessage;
 		if (!isInvisible) {
-			imageHeight = 30;
+			imageHeight = 20;
 			if (hitCount != -1) {
 				imageMessage = String.valueOf(hitCount);
 			} else {
@@ -76,19 +76,19 @@ public class HitCounter extends HttpServlet {
 		}
 
 		hitImage = new BufferedImage(imageWidth, imageHeight,
-				BufferedImage.TYPE_INT_RGB);
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = (Graphics2D) hitImage.getGraphics();
 		if (!isInvisible) {
 			g2.setBackground(Color.WHITE);
 			g2.setColor(Color.WHITE);
 			g2.clearRect(0, 0, imageWidth, imageHeight);
 			g2.drawRect(0, 0, imageWidth, imageHeight);
-			g2.setFont(new Font("default", Font.PLAIN, 12));
+			g2.setFont(new Font("default", Font.PLAIN, 14));
 			g2.setColor(Color.BLACK);
-			g2.drawString(imageMessage, 2, 20);
+			g2.drawString(imageMessage, 0, 15);
 		} else {
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
-			g2.setColor(Color.WHITE);
+			g2.setColor(new Color(255, 255, 255, 0));
 			g2.fillRect(0, 0, imageWidth, imageHeight);
 
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));

@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="" method="POST">
+	<form action="LoginServlet" method="POST">
 		<table>
 			<tr>
 				<td>User name:</td>
@@ -27,5 +27,12 @@
 		</table>
 		<input type="submit" value="Log in">
 	</form>
+	<%
+		if (request.getAttribute("test") != null) {
+	%>
+	<%=request.getAttribute("test")%>
+	<%
+		}
+	%>
 </body>
 </html>

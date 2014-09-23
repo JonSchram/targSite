@@ -74,6 +74,8 @@ public class HitCounter extends HttpServlet {
 				"no-cache, no-store,must-revalidate, max-age=-1");
 		response.addHeader("expires", "-1");
 
+		response.setContentType("image/png");
+
 		ImageIO.write(hitImage, "png", out);
 
 		out.flush();

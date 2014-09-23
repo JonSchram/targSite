@@ -1,5 +1,6 @@
 package site.tracking;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -76,8 +77,8 @@ public class HitCounter extends HttpServlet {
 
 		hitImage = new BufferedImage(imageWidth, imageHeight,
 				BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2 = (Graphics2D) hitImage.getGraphics();
 		if (!isInvisible) {
-			Graphics2D g2 = (Graphics2D) hitImage.getGraphics();
 			g2.setBackground(Color.WHITE);
 			g2.setColor(Color.WHITE);
 			g2.clearRect(0, 0, imageWidth, imageHeight);
@@ -85,6 +86,13 @@ public class HitCounter extends HttpServlet {
 			g2.setFont(new Font("default", Font.PLAIN, 12));
 			g2.setColor(Color.BLACK);
 			g2.drawString(imageMessage, 2, 20);
+		} else {
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+			g2.setColor(Color.WHITE);
+			g2.fillRect(0, 0, imageWidth, imageHeight);
+
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+			g2.fillRect(0, 0, imageWidth, imageHeight);
 		}
 
 		response.setHeader("Cache-Control",

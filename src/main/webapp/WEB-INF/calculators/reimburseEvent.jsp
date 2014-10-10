@@ -12,48 +12,33 @@
 <title><%=eventName%> Reward Calculator</title>
 </head>
 <body>
+	<%@include file="calcHeader.html"%>
 
 	<%
 	    Reward r = (Reward) (request.getAttribute("RewardData"));
-	    Iterator<String> rewardNamesIterator = r.getRewardNames()
-													    .iterator();
+	    Iterator<String> rewardNamesIterator = r.getRewardNames().iterator();
 	    Iterator<Integer> amountsIterator = r.getRewardAmounts().iterator();
 	%>
 
-	This is the calculator page for
-	<b><%=eventName%></b>
-
-	<p>
-		Items needed for reward:
-		<%=r.getUseRequired()%>
-		<br> Items returned in reward:
-		<%=r.getReturnAmount()%>
-	<p>
-		Additional rewards: <br>
-	<table border="1px">
-		<%
-		    while (rewardNamesIterator.hasNext()) {
-																								out.println("<tr><td>" + rewardNamesIterator.next()
-																									+ "</td><td>" + amountsIterator.next() + "</td></tr>");
-																						    }
-		%>
-	</table>
-	<p>
-		Amount of
-		<%=eventName%>: <input type="text" name="startAmount"><br>
-		<input type="button" value="Calculate" onclick="calculate">
-	<p>Total used:
-	<div id="totalUsed"></div>
-
-
 	<script type="text/javascript">
+		var additionalRewardNames = [
+		<%for (int i = 0; i<r.getNumberOfRewards();i++) {%>
+			<%=rewardNamesIterator.next()%><%if(i<r.getNumberOfRewards()-1){%>,<%}%>
+		<%}%>
+		];
+		var additionalRewardAmounts = [
+		<%for (int i = 0; i<r.getNumberOfRewards();i++) {%>
+			<%=amountsIterator.next()%><%if(i<r.getNumberOfRewards()-1){%>,<%}%>
+		<%}%>
+		];
+
 		function calculate() {
-			var totalUsed = repeatUse(document.getElementById("startAmount")
-					.getAttribute("value"),
-	<%=r.getUseRequired()%>
-		,
-	<%=r.getReturnAmount()%>
-		);
+			var totalUsed = repeatUse(document.getElementById("startAmount").getAttribute("value")
+			<%=r.getUseRequired()%>
+			,
+			<%=r.getReturnAmount()%>
+			);
+			document.write(totalUsed)
 			document.getElementById("totalUsed").set("value", totalUsed);
 		}
 
@@ -74,6 +59,36 @@
 			return used;
 		}
 	</script>
+
+	This is the
+	<b><%=eventName%></b> event calculator page.
+
+	<p>
+		<%=eventName%>
+		needed for reward:
+		<%=r.getUseRequired()%>
+		<br>
+		<%=eventName%>
+		returned in reward:
+		<%=r.getReturnAmount()%>
+	<p>
+		Additional rewards per redemption: <br>
+	<table border="1">
+		<%
+		    rewardNamesIterator = r.getRewardNames().iterator();
+		    amountsIterator = r.getRewardAmounts().iterator();
+		    while (rewardNamesIterator.hasNext()) {
+				out.println("<tr><td>" + rewardNamesIterator.next()
+					+ "</td><td>" + amountsIterator.next() + "</td></tr>");
+		    }
+		%>
+	</table>
+	<p>
+		Amount of
+		<%=eventName%>: <input type="text" name="startAmount"><br>
+		<input type="button" value="Calculate" onclick="calculate()">
+	<p>Total used:
+	<div id="totalUsed"></div>
 
 </body>
 </html>

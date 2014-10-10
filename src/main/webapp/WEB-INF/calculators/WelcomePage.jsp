@@ -4,14 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Error</title>
+<title>Insert title here</title>
 </head>
 <body>
-
-	<h1>Error:</h1>
-	<h2>
-		<%=request.getAttribute("message")%>
-	</h2>
-
+	<%@include file="calcHeader.html"%>
+	Welcome!
 </body>
 </html>

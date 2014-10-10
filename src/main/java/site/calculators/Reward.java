@@ -79,4 +79,8 @@ public class Reward {
     public Collection<Integer> getRewardAmounts() {
 	return additional.values();
     }
+
+    public int getNumberOfRewards() {
+	return additional.size();
+    }
 }

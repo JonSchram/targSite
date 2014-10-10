@@ -50,20 +50,24 @@ public class RewardCalculator extends HttpServlet {
 	    } else if ("Sepulcrum".equalsIgnoreCase(eventType)) {
 		forwardEvent = EventType.Sepulcrum;
 	    }
-	}
 
-	Reward r = new EventDAO().getFullRewards(forwardEvent);
-	if (!r.isEmpty()) {
-	    request.setAttribute("EventName", forwardEvent.getNiceName());
-	    request.setAttribute("RewardData", r);
-	    request.getRequestDispatcher(
-		    "/WEB-INF/calculators/reimburseEvent.jsp").forward(request,
-		    response);
+	    Reward r = new EventDAO().getFullRewards(forwardEvent);
+	    if (!r.isEmpty()) {
+		request.setAttribute("EventName", forwardEvent.getNiceName());
+		request.setAttribute("RewardData", r);
+		request.getRequestDispatcher(
+			"/WEB-INF/calculators/reimburseEvent.jsp").forward(
+			request, response);
+	    } else {
+		request.setAttribute("message", "Invalid event");
+		request.getRequestDispatcher(
+			"/WEB-INF/statusPages/messagePage.jsp").forward(
+			request, response);
+		;
+	    }
 	} else {
-	    request.setAttribute("message", "Invalid event");
-	    request.getRequestDispatcher("/WEB-INF/statusPages/messagePage.jsp")
+	    request.getRequestDispatcher("/WEB-INF/calculators/WelcomePage.jsp")
 		    .forward(request, response);
-	    ;
 	}
     }
 

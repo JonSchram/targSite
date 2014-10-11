@@ -12,8 +12,12 @@ public class EventDAO {
 
     public Reward getFullRewards(EventType wEvent) {
 	Connection conn = ConnectionManager.getConnection();
+	if (conn == null) {
+	    return null;
+	}
+
 	Reward results = new Reward();
-	
+
 	if (wEvent != null) {
 	    try {
 		// get event name as it appears in the database
@@ -59,7 +63,7 @@ public class EventDAO {
 
 	    } finally {
 		try {
-		    if (!conn.isClosed()) {
+		    if (conn != null && !conn.isClosed()) {
 			conn.close();
 		    }
 		} catch (SQLException e) {

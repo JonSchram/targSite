@@ -52,18 +52,26 @@ public class RewardCalculator extends HttpServlet {
 	    }
 
 	    Reward r = new EventDAO().getFullRewards(forwardEvent);
-	    if (!r.isEmpty()) {
-		request.setAttribute("EventName", forwardEvent.getNiceName());
-		request.setAttribute("RewardData", r);
-		request.getRequestDispatcher(
-			"/WEB-INF/calculators/reimburseEvent.jsp").forward(
-			request, response);
+	    if (r != null) {
+		if (!r.isEmpty()) {
+		    request.setAttribute("EventName",
+			    forwardEvent.getNiceName());
+		    request.setAttribute("RewardData", r);
+		    request.getRequestDispatcher(
+			    "/WEB-INF/calculators/reimburseEvent.jsp").forward(
+			    request, response);
+		} else {
+		    request.setAttribute("message", "Invalid event");
+		    request.getRequestDispatcher(
+			    "/WEB-INF/statusPages/messagePage.jsp").forward(
+			    request, response);
+		}
 	    } else {
-		request.setAttribute("message", "Invalid event");
+		request.setAttribute("message",
+			"Could not connect to the database");
 		request.getRequestDispatcher(
 			"/WEB-INF/statusPages/messagePage.jsp").forward(
 			request, response);
-		;
 	    }
 	} else {
 	    request.getRequestDispatcher("/WEB-INF/calculators/WelcomePage.jsp")

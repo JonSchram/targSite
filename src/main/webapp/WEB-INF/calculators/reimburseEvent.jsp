@@ -1,5 +1,7 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="site.calculators.Reward"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,23 +25,30 @@
 	<script type="text/javascript">
 		var additionalRewardNames = [
 		<%for (int i = 0; i<r.getNumberOfRewards();i++) {%>
-			<%=rewardNamesIterator.next()%><%if(i<r.getNumberOfRewards()-1){%>,<%}%>
+			<%="'" + rewardNamesIterator.next() + "'"%><%if(i<r.getNumberOfRewards()-1){%>,<%}%>
 		<%}%>
 		];
 		var additionalRewardAmounts = [
 		<%for (int i = 0; i<r.getNumberOfRewards();i++) {%>
-			<%=amountsIterator.next()%><%if(i<r.getNumberOfRewards()-1){%>,<%}%>
+			<%=amountsIterator.next()%> <%if(i<r.getNumberOfRewards()-1){%>,<%}%>
 		<%}%>
 		];
+		
+// 		var button = document.getElementById("calculateButton");
+// 		button.onclick=function(){calculate()};
 
 		function calculate() {
-			var totalUsed = repeatUse(document.getElementById("startAmount").getAttribute("value")
-			<%=r.getUseRequired()%>
-			,
+			var totalUsed = parseInt(repeatUse(parseInt(document.getElementById("startAmount").value,10),
+			<%=r.getUseRequired()%>,
 			<%=r.getReturnAmount()%>
-			);
-			document.write(totalUsed)
-			document.getElementById("totalUsed").set("value", totalUsed);
+			));
+			var rewardsGiven = Math.floor(totalUsed / <%=r.getUseRequired()%>);
+
+			document.getElementById("totalUsed").innerHTML = totalUsed;
+			<%for(int i = 0;i<r.getNumberOfRewards();i++){%>
+				document.getElementById("add"+<%=i%>+"name").innerHTML = additionalRewardNames[<%=i%>];
+				document.getElementById("add"+<%=i%>+"amount").innerHTML = rewardsGiven * additionalRewardAmounts[<%=i%>];
+			<%}%>
 		}
 
 		/**
@@ -84,11 +93,35 @@
 		%>
 	</table>
 	<p>
+	<form id="calcForm" method="post" action="javascript:calculate()">
 		Amount of
-		<%=eventName%>: <input type="text" name="startAmount"><br>
-		<input type="button" value="Calculate" onclick="calculate()">
-	<p>Total used:
-	<div id="totalUsed"></div>
+		<%=eventName%>: <input type="text" name="startTextbox"
+			id="startAmount"><br> <input type="button"
+			id="calculateButton" value="Calculate" onclick="calculate()">
+	</form>
+
+	<p>
+	<table cellpadding="2">
+		<tr>
+			<td>Total <%=eventName%> Used:
+			</td>
+			<td id="totalUsed">
+		</tr>
+		<tr>
+			<td>Total Additional Rewards:</td>
+		</tr>
+
+		<%
+		    for (int i = 0; i < r.getNumberOfRewards(); i++) {
+		%>
+		<tr>
+			<td id="<%="add" + i + "name"%>" />
+			<td id="<%="add" + i + "amount"%>" />
+			<%
+			    }
+			%>
+		</tr>
+	</table>
 
 </body>
 </html>

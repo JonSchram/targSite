@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Reward {
+    private String itemName;
     private int useReq;
     private int returnAmount;
     private Map<String, Integer> additional;
@@ -14,12 +15,15 @@ public class Reward {
     private boolean isValidReimburse = false;
 
     public Reward() {
+	itemName = "";
 	useReq = -1;
 	returnAmount = -1;
 	additional = new HashMap<String, Integer>();
     }
 
-    public Reward(int useReq, int returnAmount) {
+    public Reward(String itemName, int useReq, int returnAmount) {
+	this.itemName = itemName;
+
 	if (useReq > 0) {
 	    isValidUseReq = true;
 	    this.useReq = useReq;
@@ -42,6 +46,10 @@ public class Reward {
 	return !(isValidUseReq && isValidReimburse);
     }
 
+    public void setItemName(String itemName) {
+	this.itemName = itemName;
+    }
+
     public void setUseRequired(int useReq) {
 	if (useReq > 0) {
 	    isValidUseReq = true;
@@ -60,6 +68,10 @@ public class Reward {
 	}
     }
 
+    public String getItemName() {
+	return itemName;
+    }
+
     public int getUseRequired() {
 	return useReq;
     }
@@ -70,6 +82,10 @@ public class Reward {
 
     public void add(String key, int value) {
 	additional.put(key, value);
+    }
+
+    public Map<String, Integer> getMap() {
+	return additional;
     }
 
     public Set<String> getRewardNames() {

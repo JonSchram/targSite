@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import site.EventType;
 import site.DAO.EventDAO;
 
 /**
@@ -36,39 +35,35 @@ public class RewardCalculator extends HttpServlet {
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 	String eventType = request.getParameter("event");
-	EventType forwardEvent = null;
+	int forwardEvent = 0;
 	if (eventType != null) {
-	    if ("SoulCrystal".equalsIgnoreCase(eventType)) {
-		forwardEvent = EventType.SoulCrystal;
+	    try {
+		forwardEvent = Integer.parseInt(eventType);
 
-	    } else if ("MountWhip".equalsIgnoreCase(eventType)) {
-		forwardEvent = EventType.MountWhip;
-
-	    } else if ("Mahra".equalsIgnoreCase(eventType)) {
-		forwardEvent = EventType.Mahra;
-
-	    } else if ("Sepulcrum".equalsIgnoreCase(eventType)) {
-		forwardEvent = EventType.Sepulcrum;
-	    }
-
-	    Reward r = new EventDAO().getFullRewards(forwardEvent);
-	    if (r != null) {
-		if (!r.isEmpty()) {
-		    request.setAttribute("EventName",
-			    forwardEvent.getNiceName());
-		    request.setAttribute("RewardData", r);
-		    request.getRequestDispatcher(
-			    "/WEB-INF/calculators/reimburseEvent.jsp").forward(
-			    request, response);
+		Reward r = new EventDAO().getFullRewards(forwardEvent);
+		if (r != null) {
+		    if (!r.isEmpty()) {
+			request.setAttribute("EventName", r.getItemName());
+			request.setAttribute("RewardData", r);
+			request.getRequestDispatcher(
+				"/WEB-INF/calculators/reimburseEvent.jsp")
+				.forward(request, response);
+		    } else {
+			request.setAttribute("message", "Invalid event");
+			request.getRequestDispatcher(
+				"/WEB-INF/statusPages/messagePage.jsp")
+				.forward(request, response);
+		    }
 		} else {
-		    request.setAttribute("message", "Invalid event");
+		    request.setAttribute("message",
+			    "Could not connect to the database");
 		    request.getRequestDispatcher(
 			    "/WEB-INF/statusPages/messagePage.jsp").forward(
 			    request, response);
 		}
-	    } else {
-		request.setAttribute("message",
-			"Could not connect to the database");
+
+	    } catch (NumberFormatException e) {
+		request.setAttribute("message", "Event number not recognized");
 		request.getRequestDispatcher(
 			"/WEB-INF/statusPages/messagePage.jsp").forward(
 			request, response);

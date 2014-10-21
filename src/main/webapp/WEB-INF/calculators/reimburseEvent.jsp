@@ -94,7 +94,7 @@
 	<p>
 	<form id="calcForm" method="post" action="javascript:calculate()">
 		Amount of
-		<%=eventName%>: <input type="text" name="startTextbox"
+		<%=eventName%>: <input type="number" name="startTextbox"
 			id="startAmount"><br> <input type="button"
 			id="calculateButton" value="Calculate" onclick="calculate()">
 	</form>

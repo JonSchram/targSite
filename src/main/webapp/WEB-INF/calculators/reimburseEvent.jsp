@@ -1,5 +1,7 @@
+<%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="site.calculators.Reward"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -14,12 +16,22 @@
 </head>
 <body>
 	<%@include file="calcHeader.html"%>
-
+	<!-- TODO:  convert these statements to use JSTL-->
 	<%
 	    Reward r = (Reward) (request.getAttribute("RewardData"));
-	    Iterator<String> rewardNamesIterator = r.getRewardNames().iterator();
+					Map<String, Integer> rewards = r.getMap();
+					Iterator<String> rewardNamesIterator = r.getRewardNames().iterator();
 	    Iterator<Integer> amountsIterator = r.getRewardAmounts().iterator();
 	%>
+	Early table:
+	<table>
+		<c:forEach items="${rewards}" var="rew">
+			<tr>
+				<td>${rew.key}</td>
+				<td>${rew.value}</td>
+			</tr>
+		</c:forEach>
+	</table>
 
 	<script type="text/javascript">
 		var additionalRewardNames = [

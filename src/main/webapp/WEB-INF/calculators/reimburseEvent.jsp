@@ -5,12 +5,14 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE HTML>
+<%-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> --%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%
-    String eventName = request.getAttribute("EventName").toString();
+	String eventName = request.getAttribute("EventName").toString();
 %>
 <title><%=eventName%> Reward Calculator</title>
 </head>
@@ -18,11 +20,12 @@
 	<%@include file="calcHeader.html"%>
 	<!-- TODO:  convert these statements to use JSTL-->
 	<%
-	    Reward r = (Reward) (request.getAttribute("RewardData"));
-					Map<String, Integer> rewards = r.getMap();
-					Iterator<String> rewardNamesIterator = r.getRewardNames().iterator();
-	    Iterator<Integer> amountsIterator = r.getRewardAmounts().iterator();
+		Reward r = (Reward) (request.getAttribute("RewardData"));
+		Map<String, Integer> rewards = r.getMap();
+		Iterator<String> rewardNamesIterator = r.getRewardNames().iterator();
+		Iterator<Integer> amountsIterator = r.getRewardAmounts().iterator();
 	%>
+	<%--
 	Early table:
 	<table>
 		<c:forEach items="${rewards}" var="rew">
@@ -32,6 +35,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+	--%>
 
 	<script type="text/javascript">
 		var additionalRewardNames = [
@@ -91,19 +95,21 @@
 		<%=eventName%>
 		returned in reward:
 		<%=r.getReturnAmount()%>
+	</p>
 	<p>
 		Additional rewards per redemption: <br>
+	</p>
 	<table border="1">
 		<%
-		    rewardNamesIterator = r.getRewardNames().iterator();
-		    amountsIterator = r.getRewardAmounts().iterator();
-		    while (rewardNamesIterator.hasNext()) {
+			rewardNamesIterator = r.getRewardNames().iterator();
+			amountsIterator = r.getRewardAmounts().iterator();
+			while (rewardNamesIterator.hasNext()) {
 				out.println("<tr><td>" + rewardNamesIterator.next()
-					+ "</td><td>" + amountsIterator.next() + "</td></tr>");
-		    }
+						+ "</td><td>" + amountsIterator.next() + "</td></tr>");
+			}
 		%>
 	</table>
-	<p>
+	<br>
 	<form id="calcForm" method="post" action="javascript:calculate()">
 		Amount of
 		<%=eventName%>: <input type="number" name="startTextbox"
@@ -111,7 +117,8 @@
 			id="calculateButton" value="Calculate" onclick="calculate()">
 	</form>
 
-	<p>
+	<br>
+
 	<table cellpadding="2">
 		<tr>
 			<td>Total <%=eventName%> Used:
@@ -120,16 +127,17 @@
 		</tr>
 		<tr>
 			<td>Total Additional Rewards:</td>
+			<td></td>
 		</tr>
 
 		<%
-		    for (int i = 0; i < r.getNumberOfRewards(); i++) {
+			for (int i = 0; i < r.getNumberOfRewards(); i++) {
 		%>
 		<tr>
-			<td id="<%="add" + i + "name"%>" />
-			<td id="<%="add" + i + "amount"%>" />
+			<td id="<%="add" + i + "name"%>"></td>
+			<td id="<%="add" + i + "amount"%>"></td>
 			<%
-			    }
+				}
 			%>
 		</tr>
 	</table>

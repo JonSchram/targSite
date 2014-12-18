@@ -6,97 +6,97 @@ import java.util.Map;
 import java.util.Set;
 
 public class Reward {
-    private String itemName;
-    private int useReq;
-    private int returnAmount;
-    private Map<String, Integer> additional;
+	private String itemName;
+	private int useReq;
+	private int returnAmount;
+	private Map<String, Integer> additional;
 
-    private boolean isValidUseReq = false;
-    private boolean isValidReimburse = false;
+	private boolean isValidUseReq = false;
+	private boolean isValidReimburse = false;
 
-    public Reward() {
-	itemName = "";
-	useReq = -1;
-	returnAmount = -1;
-	additional = new HashMap<String, Integer>();
-    }
-
-    public Reward(String itemName, int useReq, int returnAmount) {
-	this.itemName = itemName;
-
-	if (useReq > 0) {
-	    isValidUseReq = true;
-	    this.useReq = useReq;
-	} else {
-	    this.useReq = -1;
+	public Reward() {
+		itemName = "";
+		useReq = -1;
+		returnAmount = -1;
+		additional = new HashMap<String, Integer>();
 	}
 
-	if (returnAmount > 0) {
-	    isValidReimburse = true;
-	    this.returnAmount = returnAmount;
-	} else {
-	    this.returnAmount = -1;
+	public Reward(String itemName, int useReq, int returnAmount) {
+		this.itemName = itemName;
+
+		if (useReq > 0) {
+			isValidUseReq = true;
+			this.useReq = useReq;
+		} else {
+			this.useReq = -1;
+		}
+
+		if (returnAmount > 0) {
+			isValidReimburse = true;
+			this.returnAmount = returnAmount;
+		} else {
+			this.returnAmount = -1;
+		}
+
+		additional = new HashMap<String, Integer>();
+
 	}
 
-	additional = new HashMap<String, Integer>();
-
-    }
-
-    public boolean isEmpty() {
-	return !(isValidUseReq && isValidReimburse);
-    }
-
-    public void setItemName(String itemName) {
-	this.itemName = itemName;
-    }
-
-    public void setUseRequired(int useReq) {
-	if (useReq > 0) {
-	    isValidUseReq = true;
-	    this.useReq = useReq;
-	} else {
-	    this.useReq = -1;
+	public boolean isEmpty() {
+		return !(isValidUseReq && isValidReimburse);
 	}
-    }
 
-    public void setReturnAmount(int returnAmount) {
-	if (returnAmount > 0) {
-	    isValidReimburse = true;
-	    this.returnAmount = returnAmount;
-	} else {
-	    this.returnAmount = -1;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
-    }
 
-    public String getItemName() {
-	return itemName;
-    }
+	public void setUseRequired(int useReq) {
+		if (useReq > 0) {
+			isValidUseReq = true;
+			this.useReq = useReq;
+		} else {
+			this.useReq = -1;
+		}
+	}
 
-    public int getUseRequired() {
-	return useReq;
-    }
+	public void setReturnAmount(int returnAmount) {
+		if (returnAmount > 0) {
+			isValidReimburse = true;
+			this.returnAmount = returnAmount;
+		} else {
+			this.returnAmount = -1;
+		}
+	}
 
-    public int getReturnAmount() {
-	return returnAmount;
-    }
+	public String getItemName() {
+		return itemName;
+	}
 
-    public void add(String key, int value) {
-	additional.put(key, value);
-    }
+	public int getUseRequired() {
+		return useReq;
+	}
 
-    public Map<String, Integer> getMap() {
-	return additional;
-    }
+	public int getReturnAmount() {
+		return returnAmount;
+	}
 
-    public Set<String> getRewardNames() {
-	return additional.keySet();
-    }
+	public void add(String key, int value) {
+		additional.put(key, value);
+	}
 
-    public Collection<Integer> getRewardAmounts() {
-	return additional.values();
-    }
+	public Map<String, Integer> getMap() {
+		return additional;
+	}
 
-    public int getNumberOfRewards() {
-	return additional.size();
-    }
+	public Set<String> getRewardNames() {
+		return additional.keySet();
+	}
+
+	public Collection<Integer> getRewardAmounts() {
+		return additional.values();
+	}
+
+	public int getNumberOfRewards() {
+		return additional.size();
+	}
 }

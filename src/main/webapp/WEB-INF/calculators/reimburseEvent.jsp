@@ -1,146 +1,142 @@
-<%@page import="java.util.Map"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="site.calculators.Reward"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <!DOCTYPE HTML>
-<%-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> --%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%
-	String eventName = request.getAttribute("EventName").toString();
-%>
-<title><%=eventName%> Reward Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<title>${EventName}${" Reward Calculator"}</title>
 </head>
+
 <body>
-	<%@include file="calcHeader.html"%>
-	<!-- TODO:  convert these statements to use JSTL-->
-	<%
-		Reward r = (Reward) (request.getAttribute("RewardData"));
-		Map<String, Integer> rewards = r.getMap();
-		Iterator<String> rewardNamesIterator = r.getRewardNames().iterator();
-		Iterator<Integer> amountsIterator = r.getRewardAmounts().iterator();
-	%>
-	<%--
-	Early table:
-	<table>
-		<c:forEach items="${rewards}" var="rew">
-			<tr>
-				<td>${rew.key}</td>
-				<td>${rew.value}</td>
-			</tr>
-		</c:forEach>
-	</table>
-	--%>
+	<!-- JQuery and Bootstrap scripts -->
+	<%@include file="../includes/jqueryBtst.html"%>
+	<!-- Main site header -->
+	<%@include file="../includes/NavHeader.jsp"%>
+	<%-- Header showing links to other calculators --%>
+	<%@include file="../includes/calcHeader.html"%>
 
 	<script type="text/javascript">
-		var additionalRewardNames = [
-		<%for (int i = 0; i<r.getNumberOfRewards();i++) {%>
-			<%="'" + rewardNamesIterator.next() + "'"%><%if(i<r.getNumberOfRewards()-1){%>,<%}%>
-		<%}%>
-		];
-		var additionalRewardAmounts = [
-		<%for (int i = 0; i<r.getNumberOfRewards();i++) {%>
-			<%=amountsIterator.next()%> <%if(i<r.getNumberOfRewards()-1){%>,<%}%>
-		<%}%>
-		];
-		
-// 		var button = document.getElementById("calculateButton");
-// 		button.onclick=function(){calculate()};
+	var additionalRewardAmounts = [
+    <%@include file="rewardArray.jsp"%>
+	];
 
-		function calculate() {
-			var totalUsed = parseInt(repeatUse(parseInt(document.getElementById("startAmount").value,10),
-			<%=r.getUseRequired()%>,
-			<%=r.getReturnAmount()%>
-			));
-			var rewardsGiven = Math.floor(totalUsed / <%=r.getUseRequired()%>);
+        // 		var button = document.getElementById("calculateButton");
+        // 		button.onclick = calculate;
 
-			document.getElementById("totalUsed").innerHTML = totalUsed;
-			<%for(int i = 0;i<r.getNumberOfRewards();i++){%>
-				document.getElementById("add"+<%=i%>+"name").innerHTML = additionalRewardNames[<%=i%>];
-				document.getElementById("add"+<%=i%>+"amount").innerHTML = rewardsGiven * additionalRewardAmounts[<%=i%>];
-			<%}%>
-		}
+        function calculate() {
+	    var useReq = '${RewardData.useRequired}'
+	    var returnAmount = '${RewardData.returnAmount}'
+	    var totalUsed = parseInt(repeatUse(parseInt(document
+	            .getElementById("startAmount").value, 10), useReq,
+	            returnAmount));
+	    var rewardsGiven = Math.floor(totalUsed / useReq);
 
-		/**
-		 * Uses item and redeems reward until all items have been used (uses remaining
-		 * items even if using them gives no further rewards)
-		 */
-		function repeatUse(startAmount, required, returnAmount) {
-			var used = 0;
-			var current = startAmount;
-			while (current >= required) {
-				var rewardNum = Math.floor(current / required);
-				var remaining = current % required;
-				used += current - remaining;
-				current = remaining + returnAmount * rewardNum;
-			}
-			used += current;
-			return used;
-		}
-	</script>
+	    document.getElementById("totalUsed").innerHTML = totalUsed;
+	    for (i = 0; i < additionalRewardAmounts.length; i++) {
+	        document.getElementById("add" + i + "amount").innerHTML = rewardsGiven
+	                * additionalRewardAmounts[i];
+	    }
+	    return false;
+        }
 
-	This is the
-	<b><%=eventName%></b> event calculator page.
+        /**
+         * Uses item and redeems reward until all items have been used (uses remaining
+         * items even if using them gives no further rewards)
+         */
+        function repeatUse(startAmount, required, returnAmount) {
+	    if (startAmount <= 0 || isNaN(startAmount))
+	        return 0;
+	    var used = 0;
+	    var current = startAmount;
+	    while (current >= required) {
+	        var rewardNum = Math.floor(current / required);
+	        var remaining = current % required;
+	        used += current - remaining;
+	        current = remaining + returnAmount * rewardNum;
+	    }
+	    used += current;
+	    return used;
+        }
+    </script>
 
-	<p>
-		<%=eventName%>
-		needed for reward:
-		<%=r.getUseRequired()%>
-		<br>
-		<%=eventName%>
-		returned in reward:
-		<%=r.getReturnAmount()%>
-	</p>
-	<p>
-		Additional rewards per redemption: <br>
-	</p>
-	<table border="1">
-		<%
-			rewardNamesIterator = r.getRewardNames().iterator();
-			amountsIterator = r.getRewardAmounts().iterator();
-			while (rewardNamesIterator.hasNext()) {
-				out.println("<tr><td>" + rewardNamesIterator.next()
-						+ "</td><td>" + amountsIterator.next() + "</td></tr>");
-			}
-		%>
-	</table>
-	<br>
-	<form id="calcForm" method="post" action="javascript:calculate()">
-		Amount of
-		<%=eventName%>: <input type="number" name="startTextbox"
-			id="startAmount"><br> <input type="button"
-			id="calculateButton" value="Calculate" onclick="calculate()">
-	</form>
+	<div class="container-fluid">
+		<div class="container col-xs-12">
 
-	<br>
 
-	<table cellpadding="2">
-		<tr>
-			<td>Total <%=eventName%> Used:
-			</td>
-			<td id="totalUsed">
-		</tr>
-		<tr>
-			<td>Total Additional Rewards:</td>
-			<td></td>
-		</tr>
+			<p class="text-center">
+				This is the <b>${EventName}</b> event calculator page.
+			</p>
 
-		<%
-			for (int i = 0; i < r.getNumberOfRewards(); i++) {
-		%>
-		<tr>
-			<td id="<%="add" + i + "name"%>"></td>
-			<td id="<%="add" + i + "amount"%>"></td>
-			<%
-				}
-			%>
-		</tr>
-	</table>
+			<div class="row">
+				<table class="table table-condensed">
+					<tr class="row">
+						<td>${EventName}${' needed for reward:'}</td>
+						<td>${RewardData.useRequired}</td>
+					</tr>
+					<tr class="row">
+						<td>${EventName}${' returned in reward:'}</td>
+						<td>${RewardData.returnAmount}</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="row">
+				<table class="table table-hover table-condensed">
+					<thead>
+						<tr class="row">
+							<th>Additional rewards per redemption:</th>
+							<th></th>
+						</tr>
+					</thead>
+					<c:forEach items="${RewardData.map}" var="rew">
+						<tr class="row">
+							<td>${rew.key}</td>
+							<td>${rew.value}</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+
+			<br>
+			<form role="form" class="form-inline" id="calcForm" method="post"
+				action="#" onsubmit="return calculate()">
+				<div class="form-group">
+					<label>Amount of ${EventName}:</label> <input type="number"
+						class="form-control" name="startTextbox" id="startAmount" min="0">
+				</div>
+				<button type="button" class="btn btn-default" id="calculateButton"
+					onclick="calculate();">Calculate</button>
+			</form>
+			<br>
+
+			<div class="row">
+				<table class="table table-hover table-condensed">
+					<thead>
+						<tr class="row">
+							<th>Total ${EventName} Used:</th>
+							<th><span id="totalUsed"></span></th>
+						</tr>
+						<tr class="row">
+							<th>Total Additional Rewards:</th>
+							<th></th>
+						</tr>
+					</thead>
+					<c:forEach items="${RewardData.map}" var="item" varStatus="loop">
+						<tr class="row">
+							<td>${item.key}</td>
+							<td id="add${loop.index}amount">0</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

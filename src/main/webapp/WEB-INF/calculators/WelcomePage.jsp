@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <title>Welcome</title>
 </head>
 <body>
-	<%@include file="calcHeader.html"%>
-	Welcome to the reward calculator landing page!
+	<!-- JQuery and Bootstrap scripts -->
+	<%@include file="../includes/jqueryBtst.html"%>
+	<%@include file="../includes/NavHeader.jsp"%>
+	<%@include file="../includes/calcHeader.html"%>
+	<div class="container">Please select one of the calculators
+		above.</div>
 </body>
 </html>

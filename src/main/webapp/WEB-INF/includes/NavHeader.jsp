@@ -5,7 +5,7 @@
 <c:set var="baseURL"
 	value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
 
-<nav class="navbar navbar-default" role="naviagation">
+<nav class="navbar navbar-default" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="${baseURL}">Site-TargMPD </a>

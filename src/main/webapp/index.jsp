@@ -14,7 +14,7 @@
 	<!-- JQuery and Bootstrap scripts -->
 	<%@include file="/WEB-INF/includes/jqueryBtst.html"%>
 	<%@include file="/WEB-INF/includes/NavHeader.jsp"%>
-	<div class="container">
+	<div class="container-fluid">
 		This site is currently under development. Current site content:
 		<ul>
 			<li><a href="RewardCalculator">Event Reward Calculator</a>

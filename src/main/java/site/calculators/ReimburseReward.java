@@ -1,5 +1,12 @@
 package site.calculators;
 
+/**
+ * Stores reward information where rewards are given for using an item, and that
+ * item is returned as a reward.
+ * 
+ * @author Jonathan
+ *
+ */
 public class ReimburseReward extends Reward {
     private String itemName;
     private int useReq;

@@ -38,7 +38,7 @@ public class RewardCalculator extends HttpServlet {
 	if (eventType != null) {
 	    try {
 
-		Reward r = new EventDAO().getFullRewards(eventType);
+		ReimburseReward r = new EventDAO().getFullRewards(eventType);
 		if (r != null) {
 		    if (!r.isEmpty()) {
 			request.setAttribute("EventName", r.getItemName());

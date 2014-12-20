@@ -20,6 +20,10 @@ public class EventDAO {
 	}
 
 	ReimburseReward results = new ReimburseReward();
+	// declare ResultSets outside of try block so they can be closed in
+	// finally block
+	ResultSet eventSet = null;
+	ResultSet rewardSet = null;
 	try {
 
 	    // statement to get event info and return on usage
@@ -36,7 +40,7 @@ public class EventDAO {
 
 	    // wEvent should be shortName
 	    eventStatement.setString(1, wEvent);
-	    ResultSet eventSet = eventStatement.executeQuery();
+	    eventSet = eventStatement.executeQuery();
 	    if (eventSet.next()) {
 		// get name of event item from database results
 		results.setItemName(eventSet.getString("name"));
@@ -62,7 +66,7 @@ public class EventDAO {
 			    + "where `eventID`=?");
 
 	    rewardsGetStatement.setInt(1, eventID);
-	    ResultSet rewardSet = rewardsGetStatement.executeQuery();
+	    rewardSet = rewardsGetStatement.executeQuery();
 	    // put each pair of reward name and amount into the map
 	    while (rewardSet.next()) {
 		results.add(rewardSet.getString("name"),
@@ -74,12 +78,33 @@ public class EventDAO {
 	    e.printStackTrace();
 
 	} finally {
-	    try {
-		if (conn != null && !conn.isClosed()) {
-		    conn.close();
+	    // I had no idea it is good practice to close a ResultSet (or that
+	    // it can be done). Recommendation from MySQL docs:
+	    // http://dev.mysql.com/doc/connector-j/en/connector-j-usagenotes-statements.html
+	    if (rewardSet != null) {
+		try {
+		    rewardSet.close();
+		} catch (SQLException e) {
+		    e.printStackTrace();
 		}
-	    } catch (SQLException e) {
-		e.printStackTrace();
+		rewardSet = null;
+	    }
+
+	    if (eventSet != null) {
+		try {
+		    eventSet.close();
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		}
+		eventSet = null;
+	    }
+
+	    if (conn != null) {
+		try {
+		    conn.close();
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		}
 	    }
 	}
 

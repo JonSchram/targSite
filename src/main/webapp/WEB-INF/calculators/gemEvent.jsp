@@ -7,6 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<script type="text/javascript">
+    window.onload = function() {
+        document.getElementById("calculateButton").onclick = calculate;
+    }
+</script>
 <title>Gem Event Reward Calculator</title>
 </head>
 <body>
@@ -19,13 +24,11 @@
 
 
 	<script type="text/javascript">
-        
+        function calculate() {
     <%-- Convert reward data to an object and store as javascript variable rewards --%>
         var rewards =
     <%@include file="gemRewardArray.jsp"%>
-        function calculate() {
-
-            var currentGems = [
+        var currentGems = [
                     parseInt(document.getElementById("gemslvl1").value, 10),
                     parseInt(document.getElementById("gemslvl2").value, 10),
                     parseInt(document.getElementById("gemslvl3").value, 10),
@@ -163,14 +166,15 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="panel panel-default">
+						<div class="panel-heading">Starting Gems:</div>
 						<div class="panel-body">
 							<div class="container-fluid">
 								<form class="form-horizontal" action="#" role="form"
-									method="post" onsubmit="return calculate()">
+									method="post">
 									<c:forEach begin="1" end="12" var="level">
 										<div class="form-group">
 											<label class="control-label col-sm-5 col-md-3"
-												for="gemslvl${level}">Level ${level} gems:</label>
+												for="gemslvl${level}">Level ${level}:</label>
 											<div class="col-sm-7 col-md-9">
 												<input class="form-control" type="number" value="0" min="0"
 													id="gemslvl${level}">
@@ -179,8 +183,8 @@
 									</c:forEach>
 									<div class="form-group">
 										<div class="col-sm-offset-5 col-sm-7 col-md-offset-3 col-md-9">
-											<button type="button" class="btn btn-default"
-												onclick="calculate()">Calculate</button>
+											<button type="button" id="calculateButton"
+												class="btn btn-default">Calculate</button>
 										</div>
 									</div>
 								</form>
@@ -207,7 +211,7 @@
 
 				<div class="col-sm-4">
 					<div class="panel panel-default">
-						<div class="panel-heading">Leftover gems:</div>
+						<div class="panel-heading">Ending gems:</div>
 						<table class="table table-striped table-bordered text-center">
 							<thead>
 								<tr class="row">

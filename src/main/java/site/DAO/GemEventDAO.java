@@ -53,8 +53,10 @@ public class GemEventDAO {
 		bonusSet = bonusStatement.executeQuery();
 
 		while (bonusSet.next()) {
-		    reward.setBonusGems(bonusSet.getInt("bonusLevel"),
-			    bonusSet.getInt("amount"));
+		    int level = bonusSet.getInt("bonusLevel");
+		    reward.setBonusGems(level, bonusSet.getInt("amount"));
+		    // bonus gem for each level is a gem of the same level
+		    reward.setBonusGemLevel(level, level);
 		}
 
 		// query for additional rewards

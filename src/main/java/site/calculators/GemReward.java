@@ -15,11 +15,17 @@ public class GemReward extends Reward {
     int bonusGems;
 
     /**
+     * Level of gem awarded
+     */
+    int level;
+
+    /**
      * Constructs a GemReward object with a default of 0 bonus gems
      */
     public GemReward() {
 	super();
 	bonusGems = 0;
+	level = 0;
     }
 
     /**
@@ -27,9 +33,18 @@ public class GemReward extends Reward {
      * 
      * @param bonusGems Number of bonus gems awarded for this level.
      */
-    public GemReward(int bonusGems) {
+    public GemReward(int bonusGems, int level) {
 	super();
 	setBonusGems(bonusGems);
+	setLevel(level);
+    }
+
+    public void setLevel(int level) {
+	if (level >= 1 && level <= 12) {
+	    this.level = level;
+	} else {
+	    level = 0;
+	}
     }
 
     /**
@@ -42,4 +57,11 @@ public class GemReward extends Reward {
 	bonusGems = number >= 0 ? number : 0;
     }
 
+    public int getBonusGems() {
+	return bonusGems;
+    }
+
+    public int getLevel() {
+	return level;
+    }
 }

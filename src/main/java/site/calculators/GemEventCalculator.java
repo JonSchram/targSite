@@ -32,7 +32,17 @@ public class GemEventCalculator extends HttpServlet {
 	    HttpServletResponse response) throws ServletException, IOException {
 	GemEventReward eventRewards = new GemEventDAO().getActiveRewards();
 	if (eventRewards != null) {
-
+	    if (eventRewards.isEmpty()) {
+		// no active event
+		request.setAttribute("message",
+			"There is no active gem event. Cannot calculate rewards.");
+		request.getRequestDispatcher(
+			"/WEB-INF/statusPages/messagePage.jsp").forward(
+			request, response);
+	    } else {
+		request.setAttribute("rewards", eventRewards);
+		request.getRequestDispatcher("/WEB-INF/calculators/gemEvent.jsp").forward(request, response);;
+	    }
 	} else {
 	    // null reward object, so database connection couldn't be made
 	    request.setAttribute("message", "Could not connect to the database");

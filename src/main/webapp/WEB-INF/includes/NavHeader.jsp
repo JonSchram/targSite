@@ -24,6 +24,9 @@
 							Training Whip</a></li>
 					<li><a href="${baseURL}/RewardCalculator?event=Mahra">Mahra</a></li>
 					<li><a href="${baseURL}/RewardCalculator?event=Sep">Sepulcrum</a></li>
+					<li class="divider"></li>
+					<li><a href="${baseURL}/GemEventCalculator">Gem Event
+							Reward Calculator</a></li>
 				</ul></li>
 		</ul>
 	</div>

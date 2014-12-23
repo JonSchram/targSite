@@ -15,12 +15,15 @@
 	<%@include file="/WEB-INF/includes/jqueryBtst.html"%>
 	<%@include file="/WEB-INF/includes/NavHeader.jsp"%>
 	<div class="container-fluid">
-		This site is currently under development. Current site content:
+		<p>This site is updated periodically to add new features. Current
+			content:</p>
 		<ul>
-			<li><a href="RewardCalculator">Event Reward Calculator</a>
-				(NOTE: Events are determined by Wartune devs and are subject to
-				change)
+			<li><a href="RewardCalculator">Event Reward Calculator</a></li>
+			<li><a href="GemEventCalculator">Gem Event Reward Calculator</a>
 		</ul>
+		<p>NOTE: Events are determined by Wartune devs and are subject to
+			change. All event calculators are based on current knowledge of
+			upcoming events.</p>
 	</div>
 </body>
 </html>

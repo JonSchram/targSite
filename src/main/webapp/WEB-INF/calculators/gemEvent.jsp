@@ -93,10 +93,11 @@
 
             //tally rewards
             var rewardsGiven = {};
-            for (i = 1; i <= 12; i++) {
+            //redemptions array index 0 corresponds to synthesizing a lvl 2 gem
+            for (i = 2; i <= 12; i++) {
                 if (i in rewards) {
-                    if (isNaN(redemptions[i - 1])) {
-                        redemptions[i - 1] = 0
+                    if (isNaN(redemptions[i - 2])) {
+                        redemptions[i - 2] = 0
                     }
                     for ( var itemName in rewards[i].additional) {
                         //before adding a reward check that the item has a corresponding entry
@@ -104,7 +105,7 @@
                             rewardsGiven[itemName] = 0;
                         }
                         //multiply number of times reward is given by reward amount
-                        rewardsGiven[itemName] += redemptions[i - 1]
+                        rewardsGiven[itemName] += redemptions[i - 2]
                                 * rewards[i]["additional"][itemName];
                     }
                 }
@@ -157,6 +158,7 @@
 			</table>
 		</div>
 
+		<%--Useful feature would be to specify highest level transposer owned, for those who don't have them all --%>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-4">

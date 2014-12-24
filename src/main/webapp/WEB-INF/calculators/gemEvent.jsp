@@ -147,15 +147,22 @@
 	<div class="container-fluid">
 		<div class="panel panel-default">
 			<div class="panel-heading">Gem event rewards:</div>
-			<table class="table table-hover">
-				<c:forEach items="${rewards.map}" var="level" varStatus="levelLoop">
+			<%-- New table system detects the items given and guarantees each column displays one item --%>
+			<table class="table table-hover text-center">
+				<thead>
 					<tr class="row">
-						<th>Level ${level.key}</th>
-						<td>Level ${level.value.level} gem x ${level.value.bonusGems}</td>
-						<td><c:forEach items="${level.value.map}" var="additional"
-								varStatus="loop">
-								<td>${additional.key}${" x "}${additional.value}</td>
-							</c:forEach>
+						<th></th>
+						<c:forEach items="${table.keySet()}" var="headCell">
+							<th class="text-center">${headCell}</th>
+						</c:forEach>
+					</tr>
+				</thead>
+				<c:forEach begin="0" end="${levels.size() - 1}" var="levelNum">
+					<tr class="row">
+						<th>Level ${levels[levelNum]}</th>
+						<c:forEach items="${table}" var="items">
+							<td>${items.value[levelNum]}</td>
+						</c:forEach>
 					</tr>
 				</c:forEach>
 			</table>

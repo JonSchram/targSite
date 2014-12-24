@@ -2,6 +2,7 @@ package site.calculators;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Stores reward information where rewards are given for synthesizing a certain
@@ -14,7 +15,7 @@ public class GemEventReward {
     /**
      * Stores rewards for each level gem synthesized.
      */
-    Map<Integer, GemReward> levelRewards;
+    private Map<Integer, GemReward> levelRewards;
 
     private boolean empty;
 
@@ -94,6 +95,10 @@ public class GemEventReward {
 
     public Map<Integer, GemReward> getMap() {
 	return levelRewards;
+    }
+
+    public Set<Integer> getLevels() {
+	return levelRewards.keySet();
     }
 
 }

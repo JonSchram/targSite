@@ -145,98 +145,97 @@
     </script>
 
 	<div class="container-fluid">
-		<div class="panel panel-default">
-			<div class="panel-heading">Gem event rewards:</div>
-			<%-- New table system detects the items given and guarantees each column displays one item --%>
-			<table class="table table-hover text-center">
-				<thead>
-					<tr class="row">
-						<th></th>
-						<c:forEach items="${table.keySet()}" var="headCell">
-							<th class="text-center">${headCell}</th>
-						</c:forEach>
-					</tr>
-				</thead>
-				<c:forEach begin="0" end="${levels.size() - 1}" var="levelNum">
-					<tr class="row">
-						<th>Level ${levels[levelNum]}</th>
-						<c:forEach items="${table}" var="items">
-							<td>${items.value[levelNum]}</td>
-						</c:forEach>
-					</tr>
-				</c:forEach>
-			</table>
+		<!-- extra container added so that reward table lines up with the content underneath it -->
+		<div class="container-fluid">
+			<div class="panel panel-default">
+				<div class="panel-heading">Gem event rewards:</div>
+				<%-- New table system detects the items given and guarantees each column displays one item --%>
+				<table
+					class="table table-hover text-center table-striped table-bordered">
+					<thead>
+						<tr class="row">
+							<th></th>
+							<c:forEach items="${table.keySet()}" var="headCell">
+								<th class="text-center">${headCell}</th>
+							</c:forEach>
+						</tr>
+					</thead>
+					<c:forEach begin="0" end="${levels.size() - 1}" var="levelNum">
+						<tr class="row">
+							<th>Level ${levels[levelNum]}</th>
+							<c:forEach items="${table}" var="items">
+								<td>${items.value[levelNum]}</td>
+							</c:forEach>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
 		</div>
 
 		<%--Useful feature would be to specify highest level transposer owned, for those who don't have them all --%>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="panel panel-default">
-						<div class="panel-heading">Starting Gems:</div>
-						<div class="panel-body">
-							<div class="container-fluid">
-								<form class="form-horizontal" action="#" role="form"
-									method="post">
-									<c:forEach begin="1" end="12" var="level">
-										<div class="form-group">
-											<label class="control-label col-sm-5 col-md-3"
-												for="gemslvl${level}">Level ${level}:</label>
-											<div class="col-sm-7 col-md-9">
-												<input class="form-control" type="number" value="0" min="0"
-													id="gemslvl${level}">
-											</div>
-										</div>
-									</c:forEach>
-									<div class="form-group">
-										<div class="col-sm-offset-5 col-sm-7 col-md-offset-3 col-md-9">
-											<button type="button" id="calculateButton"
-												class="btn btn-default">Calculate</button>
-										</div>
+		<div class="col-sm-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">Starting Gems:</div>
+				<div class="panel-body">
+					<div class="container-fluid">
+						<form class="form-horizontal" action="#" role="form" method="post">
+							<c:forEach begin="1" end="12" var="level">
+								<div class="form-group">
+									<label class="control-label col-sm-5 col-md-3"
+										for="gemslvl${level}">Level ${level}:</label>
+									<div class="col-sm-7 col-md-9">
+										<input class="form-control" type="number" value="0" min="0"
+											id="gemslvl${level}">
 									</div>
-								</form>
+								</div>
+							</c:forEach>
+							<div class="form-group">
+								<div class="col-sm-offset-5 col-sm-7 col-md-offset-3 col-md-9">
+									<button type="button" id="calculateButton"
+										class="btn btn-default">Calculate</button>
+								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
+			</div>
+		</div>
 
-				<div class="col-sm-4">
-					<div class="panel panel-default">
-						<div class="panel-heading">Total Rewards:</div>
-						<table class="table table-hover table-bordered text-center"
-							id="totalRewards">
-							<thead>
-								<tr class="row">
-									<th class="text-center">Item name</th>
-									<th class="text-center">Quantity</th>
-								</tr>
-							</thead>
-							<%--javascript inserts more rows here --%>
-						</table>
-					</div>
-				</div>
+		<div class="col-sm-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">Total Rewards:</div>
+				<table class="table table-hover table-bordered text-center"
+					id="totalRewards">
+					<thead>
+						<tr class="row">
+							<th class="text-center">Item name</th>
+							<th class="text-center">Quantity</th>
+						</tr>
+					</thead>
+					<%--javascript inserts more rows here --%>
+				</table>
+			</div>
+		</div>
 
-				<div class="col-sm-4">
-					<div class="panel panel-default">
-						<div class="panel-heading">Ending gems:</div>
-						<table class="table table-striped table-bordered text-center">
-							<thead>
-								<tr class="row">
-									<th class="text-center">Level</th>
-									<th class="text-center">Amount</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach begin="1" end="12" var="i">
-									<tr class="row">
-										<td>${i}</td>
-										<td id="leftover${i}">0</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
-				</div>
+		<div class="col-sm-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">Ending gems:</div>
+				<table class="table table-striped table-bordered text-center">
+					<thead>
+						<tr class="row">
+							<th class="text-center">Level</th>
+							<th class="text-center">Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach begin="1" end="12" var="i">
+							<tr class="row">
+								<td>${i}</td>
+								<td id="leftover${i}">0</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

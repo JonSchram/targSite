@@ -6,10 +6,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description"
+	content="Select from one of several event reward calculators for the Wartune browser game. Determine items you will receive if you take full advantage of the event.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<title>Welcome</title>
+<title>Reward Calculator Select</title>
 </head>
 <body>
 	<!-- JQuery and Bootstrap scripts -->

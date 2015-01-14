@@ -5,10 +5,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description"
+	content="Site managed by the Targaryens guild of Wartune s62 and s65 on Kabam. Calculate your rewards for several types of in-game events.">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<title>Welcome</title>
+<title>Site-Targmpd: Targaryens guild on Wartune s62/s65</title>
 </head>
 <body>
 	<!-- JQuery and Bootstrap scripts -->
@@ -21,9 +24,9 @@
 			<li><a href="RewardCalculator">Event Reward Calculator</a></li>
 			<li><a href="GemEventCalculator">Gem Event Reward Calculator</a>
 		</ul>
-		<p>NOTE: Events are determined by Wartune devs and are subject to
-			change. All event calculators are based on current knowledge of
-			upcoming events.</p>
+		<p>NOTE: Events are determined by Wartune devs, not us, and are
+			subject to change. All event calculators are based on current
+			knowledge of upcoming events.</p>
 	</div>
 </body>
 </html>

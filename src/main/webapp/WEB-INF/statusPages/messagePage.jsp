@@ -7,6 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<%-- This is an error page so robots shouldn't index it --%>
+<meta name="robots" content="noindex">
 <title>Error</title>
 </head>
 <body>
